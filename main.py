@@ -21,7 +21,7 @@ TMDB_API_KEY = os.environ["TMDB_API_KEY"]
 
 
 def get_datetime_now():
-    return datetime.datetime.now()
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
 
 
 def is_time2tweet(target_number: float):
