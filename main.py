@@ -101,16 +101,17 @@ def create_tweet_message(trend_movie: dict, ranking: int):
     today = now.strftime("%y.%m.%d")
     rank = ranking + 1
     title = trend_movie["title"]
-    popularity = trend_movie["popularity"]
-    vote_average = trend_movie["vote_average"]
-    average_rating_icon = create_average_rating_moon_icon(vote_average / 2)
+    popularity = int(trend_movie["popularity"])
+    vote_average_half = trend_movie["vote_average"] / 2
+    average_rating_icon = create_average_rating_moon_icon(vote_average_half)
     vote_count = trend_movie["vote_count"]
     return "\n".join(
         [
             f"人気映画ランキング ({today})",
             "",
-            f"{rank}位 {popularity:,} point",
+            f"{rank}位 ({popularity:,} point)",
             f"『{title}』",
+            f"{vote_average_half:.2f}/5",
             f"{average_rating_icon} ({vote_count:,})",
         ]
     )
