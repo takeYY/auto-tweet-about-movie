@@ -163,3 +163,31 @@ def tweet(request):
 
     client.create_tweet(text=message, media_ids=[media_id])
     return message
+
+
+def scheduled_tweets(request):
+    if not request.method == "POST":
+        return abort(405)
+
+    if not request.args and request.args.get("refresh_token"):
+        return abort(400)
+
+    if request.args.get("refresh_token") != REFRESH_TOKEN:
+        return abort(401)
+
+    twitter = OAuth1Session(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+
+    try:
+        # Twitter Ads API で取得したアカウント ID
+        account_id = "???"
+        url = f"https://api.twitter.com/12/accounts/{account_id}/scheduled_tweets"
+        query_params = {
+            "scheduled_at": "2022-11-012T16:05+09:00",
+            "as_user_id": "1140509482406928384",
+            "text": "This is the test.",
+        }
+        res = twitter.post(url=url, params=query_params)
+        print(res.json())
+
+    except Exception as e:
+        print(e)
